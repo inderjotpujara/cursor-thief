@@ -18,8 +18,9 @@
     "build": "npm run build:chromium && npm run build:firefox",
     "build:chromium": "node scripts/build.mjs --target=chromium",
     "build:firefox": "node scripts/build.mjs --target=firefox",
+    "package": "npm run clean && npm run build && node scripts/package.mjs",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist release"
   },
   "dependencies": {
     "react": "^18.3.1",
