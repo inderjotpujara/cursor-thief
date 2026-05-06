@@ -10,6 +10,10 @@ on:
 permissions:
   contents: read
 
+env:
+  # Run JS actions on Node 24 (Node 20 deprecation kicks in mid-2026).
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   typecheck-and-build:
     name: Typecheck + cross-browser build
