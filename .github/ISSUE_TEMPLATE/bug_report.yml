@@ -1,0 +1,84 @@
+name: Bug report
+description: Something is broken or behaving wrong
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. A few details up front make it 10× faster to fix.
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser & version
+      description: e.g. "Chrome 132 on macOS 15.2", "Firefox 128 on Windows 11"
+      placeholder: Chrome 132, macOS 15.2
+    validations:
+      required: true
+
+  - type: input
+    id: site
+    attributes:
+      label: Site where the bug happened
+      description: A specific URL helps a lot. Skip if it's reproducible everywhere.
+      placeholder: https://example.com/article-page
+
+  - type: dropdown
+    id: character
+    attributes:
+      label: Active character at the time
+      options:
+        - Rascal
+        - Pip
+        - Sly
+        - Gloop
+        - Snatch
+        - Fingers
+        - Don't remember
+        - Doesn't matter / reproduces with any
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you see versus what did you expect?
+      placeholder: |
+        I selected text in a tweet. The thief ran in but never came back.
+        Selection stayed greyed out forever.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Number them so we can replay
+      placeholder: |
+        1. Open https://twitter.com/foo/status/123
+        2. Select any tweet body
+        3. Watch — heist starts but never restores
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Browser console output (if any)
+      description: |
+        Open DevTools → Console. Filter to "Errors" + "Warnings". Paste anything that mentions cursor-thief or fires near the time of the bug.
+      render: text
+
+  - type: checkboxes
+    id: checked
+    attributes:
+      label: Sanity checks
+      options:
+        - label: I rebuilt + reloaded the extension after pulling the latest code
+          required: false
+        - label: The bug also happens with `Reading time = no pause`
+          required: false
+        - label: The page is NOT inside an iframe / NOT contenteditable
+          required: false

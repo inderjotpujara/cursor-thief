@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: README — install + tweak guide
+    url: https://github.com/inderjotpujara/cursor-thief#readme
+    about: Most usage and tweak questions are already answered in the README.

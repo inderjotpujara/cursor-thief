@@ -1,0 +1,48 @@
+name: Feature / idea
+description: Suggest a new character, animation, setting, or behaviour
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of idea
+      options:
+        - New character
+        - New animation / pose / motion
+        - New setting in the popup
+        - New phrase for the comic burst (YOINK, POACHED, …)
+        - New apology note (thx!, no harm done!, …)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: What's the idea?
+      description: Plain words. Sketches/screenshots welcome.
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why would this be delightful?
+      description: One sentence is fine. Cursor Thief is a feel-good extension; the bar is "is this charming?"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - Quick — single file change
+        - Medium — touches several files
+        - Big — needs a design discussion first
+
+  - type: textarea
+    id: alts
+    attributes:
+      label: Alternatives you considered
+      description: Optional. Rule of thumb — if you considered three options and want option B, mentioning A and C helps reviewers.

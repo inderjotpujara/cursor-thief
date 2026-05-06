@@ -259,3 +259,7 @@ Possible additions (none in scope today):
 - Concept and design: see `designs/` and `cursor-thief.md`.
 - Built with Vite, TypeScript, React 18, and `webextension-polyfill`.
 - Fonts: Caveat, Special Elite, Nunito (Google Fonts), Playfair Display (test page only).
+
+## License
+
+[MIT](LICENSE) — do whatever you want, just keep the copyright notice.

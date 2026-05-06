@@ -2,8 +2,17 @@
   "name": "cursor-thief",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "description": "A tiny creature steals your selected text and brings it back.",
+  "homepage": "https://github.com/inderjotpujara/cursor-thief",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inderjotpujara/cursor-thief.git"
+  },
+  "bugs": {
+    "url": "https://github.com/inderjotpujara/cursor-thief/issues"
+  },
   "scripts": {
     "dev": "node scripts/build.mjs --target=chromium --watch",
     "build": "npm run build:chromium && npm run build:firefox",
