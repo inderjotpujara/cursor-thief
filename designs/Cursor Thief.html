@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Cursor Thief — Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Caveat:wght@500;700&family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #F5EFE2; font-family: 'Nunito', sans-serif; }
+  * { box-sizing: border-box; }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="creature.jsx"></script>
+<script type="text/babel" src="creatures-roster.jsx"></script>
+<script type="text/babel" src="popup.jsx"></script>
+<script type="text/babel" src="picker.jsx"></script>
+<script type="text/babel" src="storyboard.jsx"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState } = React;
+
+// Wrapper to position the popup card cleanly within the artboard
+const PopupFrame = ({ children, caption }) => (
+  <div style={{
+    width: "100%", height: "100%",
+    background: "radial-gradient(circle at 50% 30%, #2A2620 0%, #15141C 80%)",
+    display: "flex", flexDirection: "column",
+    alignItems: "center", justifyContent: "center",
+    gap: 18,
+    padding: 24,
+    position: "relative",
+    overflow: "hidden",
+  }}>
+    {/* tiny scattered stars in bg */}
+    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.5 }}>
+      {Array.from({length: 24}).map((_, i) => {
+        const x = (i * 47) % 360, y = (i * 83) % 460;
+        const r = (i % 4 === 0) ? 1.4 : 0.8;
+        return <circle key={i} cx={x} cy={y} r={r} fill="#E8B547" opacity={0.4 + (i%3)*0.2} />;
+      })}
+    </svg>
+    {children}
+    {caption && (
+      <div style={{
+        fontFamily: "'Caveat', cursive",
+        fontSize: 18,
+        color: "#E8B547",
+        textAlign: "center",
+        position: "relative",
+        zIndex: 1,
+      }}>{caption}</div>
+    )}
+  </div>
+);
+
+const App = () => (
+  <DesignCanvas title="Cursor Thief" subtitle="a tiny menace, a borrowed phrase, a safe return">
+    <DCSection id="popup" title="01 — Extension Popup" subtitle="320px wide, three states of the same panel.">
+      <DCArtboard id="popup-ready" label="Ready" width={380} height={540}>
+        <PopupFrame caption="default state — armed and waiting">
+          <Popup enabled={true} siteEnabled={true} stealing={false} />
+        </PopupFrame>
+      </DCArtboard>
+      <DCArtboard id="popup-stealing" label="Mid-heist" width={380} height={540}>
+        <PopupFrame caption="status pulses while a theft is in progress">
+          <Popup enabled={true} siteEnabled={true} stealing={true} stealCount={143} />
+        </PopupFrame>
+      </DCArtboard>
+      <DCArtboard id="popup-disabled" label="Per-site off" width={380} height={540}>
+        <PopupFrame caption="thief is napping on this site">
+          <Popup enabled={true} siteEnabled={false} stealing={false} />
+        </PopupFrame>
+      </DCArtboard>
+    </DCSection>
+
+    <DCSection id="storyboard" title="02 — In-Page Heist Storyboard" subtitle="Four moments of a single theft sequence.">
+      <DCArtboard id="s1" label="1. Selection" width={760} height={480}><State1 /></DCArtboard>
+      <DCArtboard id="s2" label="2. Arrival" width={760} height={480}><State2 /></DCArtboard>
+      <DCArtboard id="s3" label="3. Theft" width={760} height={480}><State3 /></DCArtboard>
+      <DCArtboard id="s4" label="4. Return" width={760} height={480}><State4 /></DCArtboard>
+    </DCSection>
+
+    <DCSection id="roster" title="03 — Character Roster" subtitle="Plug-and-play thieves. Pick one and the popup, storyboard, and in-page heist all swap.">
+      <DCArtboard id="picker-default" label="Picker — Rascal selected" width={380} height={620}>
+        <PopupFrame caption="default — the original menace is on the job">
+          <PickerWithState initial="rascal" />
+        </PopupFrame>
+      </DCArtboard>
+      <DCArtboard id="picker-snatch" label="Picker — Snatch selected" width={380} height={620}>
+        <PopupFrame caption="swap to a magpie with refined taste">
+          <PickerWithState initial="snatch" />
+        </PopupFrame>
+      </DCArtboard>
+      <DCArtboard id="popup-pip" label="Popup with Pip" width={380} height={540}>
+        <PopupFrame caption="popup header reflects the chosen thief">
+          <Popup enabled={true} siteEnabled={true} stealing={false} character="pip" stealCount={87} />
+        </PopupFrame>
+      </DCArtboard>
+      <DCArtboard id="popup-fingers" label="Popup with Fingers" width={380} height={540}>
+        <PopupFrame caption="eight arms, eight stolen treasures">
+          <Popup enabled={true} siteEnabled={true} stealing={true} character="fingers" stealCount={208} />
+        </PopupFrame>
+      </DCArtboard>
+    </DCSection>
+  </DesignCanvas>
+);
+
+const PickerWithState = ({ initial }) => {
+  const [picked, setPicked] = useState(initial);
+  return <CharacterPicker selected={picked} onSelect={setPicked} />;
+};
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
