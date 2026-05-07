@@ -238,6 +238,42 @@ function LoadingSkeleton() {
   );
 }
 
+// ── export helper ─────────────────────────────────────────────────────────────
+
+function exportStats(stats: Stats): void {
+  const now = new Date();
+  const avgHeistMs = stats.stealCount > 0
+    ? Math.round(stats.totalHeistMs / stats.stealCount)
+    : 0;
+
+  const payload = {
+    version: "0.1.0",
+    exportedAt: now.toISOString(),
+    stealCount: stats.stealCount,
+    totalHeistMs: stats.totalHeistMs,
+    avgHeistMs,
+    lastHeistAt: stats.lastHeistAt ?? null,
+  };
+
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const dateStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+  const filename = `cursor-thief-stats-${dateStr}.json`;
+
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = filename;
+  anchor.style.display = "none";
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
+
+  // Revoke the object URL after a short delay to allow the download to start
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 // ── main view ─────────────────────────────────────────────────────────────────
 
 interface MainViewProps {
@@ -450,19 +486,35 @@ function MainView({ state, onToggleEnabled, onToggleSiteEnabled, onSetLinger, on
           <span style={{ color: "#E8743C" }}>♥</span>
           <span style={{ fontFamily: "'Caveat', cursive", fontSize: 14, color: "#E8B547" }}>and mischief</span>
         </div>
-        <button
-          onClick={onOpenPicker}
-          style={{
-            all: "unset",
-            cursor: "pointer",
-            color: "#8B8275",
-            textDecoration: "underline",
-            textUnderlineOffset: 2,
-            fontSize: 11,
-          }}
-        >
-          settings
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <button
+            onClick={() => exportStats(stats)}
+            style={{
+              all: "unset",
+              cursor: "pointer",
+              color: "#8B8275",
+              textDecoration: "underline",
+              textUnderlineOffset: 2,
+              fontSize: 11,
+            }}
+          >
+            export stats
+          </button>
+          <span style={{ color: "#3A3645" }}>·</span>
+          <button
+            onClick={onOpenPicker}
+            style={{
+              all: "unset",
+              cursor: "pointer",
+              color: "#8B8275",
+              textDecoration: "underline",
+              textUnderlineOffset: 2,
+              fontSize: 11,
+            }}
+          >
+            settings
+          </button>
+        </div>
       </div>
     </div>
   );

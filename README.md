@@ -260,6 +260,10 @@ Possible additions (none in scope today):
 - Built with Vite, TypeScript, React 18, and `webextension-polyfill`.
 - Fonts: Caveat, Special Elite, Nunito (Google Fonts), Playfair Display (test page only).
 
+## Privacy
+
+Export Stats — the "export stats" button in the popup generates a JSON file of your local counters and triggers a browser download. It is an explicit user action, runs entirely in your browser, and makes no network requests. Nothing is sent anywhere.
+
 ## License
 
 [MIT](LICENSE) — do whatever you want, just keep the copyright notice.
